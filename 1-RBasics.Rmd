@@ -393,24 +393,36 @@ gayguides$title[500]
 
 (@) The Year variable contains the year (numeric) of each entry. Can you find the earliest year in this dataset? (Using code, don't cheat and use the documentation!)
 ```{r}
-min(gayguides[gayguides$Year>0,1]) 
+min(gayguides$Year)
+
 ```
 
 
 (@) How about the latest year? 
 ```{r}
-
+max(gayguides$Year)
 ```
 
 
 (@) Add another dataset from `DigitalMethodsData`. How many observations are included in this dataset? Run through some of the examples from above to learn about the dataset.
-```{r}
 
+> There were 271 obs. in the charlestonManumissions dataset.
+
+```{r}
+data(charlestonManumissions)
 ```
 
 (@) What did you learn about the dataset? What can you tell me about it? 
 
->
+> Looking at the charlestonManumissions dataset, I learned several things about all of the manumissions filed in Charleston District from 1776-1800 that were contained in the Miscellaneous Records section of the South Carolina Department of Archives and History. 
+
+>Based on this dataset I was quickly able to ascertain that there were only 271 slaves on record as being freed legally by manumission in Charleston in the four years between 1776-1800. This would average out to about 68 slaves freed by manumission per year during this time. It might be interesting to compare this number to the estimated total number of slaves that lived in the area in these same years. 
+
+>By using the table() function I was able to discover that 145 of these slaves were manumised for solely moral reasons.This makes up almost 54 percent of all manumissions given during this period. I also used the table() function to look at the names, and I discovered that it appears as though there were far more female slaves manumised than male. It would be interesting to get the count to check this and get a percentage. However, I am not sure how you would best accomplish that with this dataset as there is no column for gender.
+
+>One thing I tried but couldn't figure out was to count the number of occurences of a specific year in the date column. Since the date column has day month year, I couldn't figure out how to get the table function to show just the number of occurences for only the year.
+
+>Lastly, there were interesting notes in the dataframe that gave lots of detail that lends context to the meaning of the "motives" in the frame. This could be used to help categorize the different conditions under each heading that received manumission.
 
 
 

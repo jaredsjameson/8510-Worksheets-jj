@@ -2,7 +2,9 @@
 title: 'Worksheet 2: Data Structures'
 author: "Amanda Regan"
 date: "2023-01-05"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 _This is the second in a series of worksheets for History 8510 at Clemson University. The goal of these worksheets is simple: practice, practice, practice. The worksheet introduces concepts and techniques and includes prompts for you to practice in this interactive document. When you are finished, you should change the author name (above), knit your document to a pdf, and upload it to canvas._
@@ -175,15 +177,15 @@ gayguides[2555:2560,5:6]
 
 (@) Load another dataset from `DigitalMethodsData`. Subset it to find some element of the data. Write the code below and then explain what element of the data you wanted to subset and why:
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 
-cols <- c(1, 3:4, 8)
+cols <- c(1, 3, 8)
 charlestonManumissions[,cols]
                        
 
 ```
 
-> >I chose the charlestonManumissions dataset, and I chose to subset the Name, Owner, Motive, and Notes column. The reason for this was I wanted to see for one if there were clear relations between the types of morals that were applied that changed according to gender. This is difficult because the names aren't classified by gender, and I was hoping this might give me an idea as to how I could try and sort the names by gender without going through every entry.
+> >I chose the manumissions dataset, and I chose to subset the Name, Owner, Motive, and Notes column. The reason for this was I wanted to see for one if there were clear relations between the types of morals that were applied that changed according to gender. This is difficult because the names aren't classified by gender, and I was hoping this might give me an idea as to how I could try and sort the names by gender without going through every entry.
 
 Another useful operator to know is `$` which we used a little bit in the previous worksheet. `$` is shorthand for accessing a variable in a dataframe. 
  
@@ -369,7 +371,7 @@ for (i in 1:10) {
 >This loop only prints 3 and 4 because that is what it is coded to do. First the for loop skips the values that are less than 3 and goes to the next part of the loop, then it stops as soon as the loop reaches the 5 item in the list. This leaves only 3 and 4 as available values for the loop to print.
 
 (@) In the state population data, can you write a loop that pulls only states with populations between 200,000 and 250,000 in 1800? You could accomplish this a few different ways. Try to use next and break statements. 
-```{r}
+```{r eval=FALSE, include=FALSE}
 for (i in 1:nrow(statepopulations)) {
   if (is.na(statepopulations$X1800[i]))
     next
@@ -522,18 +524,21 @@ gg.locations("Lake Placid", 1982)
 ```
 
 (@) Use the Boston Women Voter dataset. Write a function that accepts the name of an occupation. Your function should return new dataframe that includes the records for every voter listed with that occupation.  
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 voterbyoccupation <- function(occupation) {
 data(BostonWomenVoters)  
 
-for (i in 1:length(BostonWomenVoters)) {
+i <- 1
+  
+for (i in 1:length(BostonWomenVoters$Occuptation[i])) {
     if (BostonWomenVoters$Occupation[i] == occupation) {
      data.frame(BostonWomenVoters[i])
       
     }
   }
 }
+
 
 voterbyoccupation("Housewife")
 ```

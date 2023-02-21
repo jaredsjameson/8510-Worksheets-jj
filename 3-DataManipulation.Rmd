@@ -76,25 +76,35 @@ gayguides %>%
 (@) The above code grabs every location where the city is Greenville. However, there is more than one city named Greenville. Can you filter to retrieve Greenville, SC? 
 
 ```{r}
+gayguides %>% 
+  filter(city == "Greenville" & state == "SC")
 ```
 
 (@) How about every location between 1975 and 1980? 
 
 ```{r}
+gayguides %>% 
+  filter(Year > 1974 & Year < 1981)
 ```
 
 
 (@) Every city in Greenville, SC between 1975 and 1980? 
 
 ```{r}
+gayguides %>% 
+  filter(city == "Greenville" & state == "SC" & Year > 1974 & Year < 1981)
 ```
 
 (@) Can you find all locations in 1975 except for New York and San Francisco? 
 ```{r}
+gayguides %>% 
+  filter(city != "New York" & city != "San Francisco" & Year == 1975)
 ```
 
 (@) The amenity features column in gay guides contains a comma separated list of categorizations. (G), for example, stands for girls. However, this language changed over time and women's locations eventually are described as (L). What if we want to filter by any entry that has (G) OR (L) in the amenity feature column?  This is a bit more complicated because the entries are a comma separated list and (G) or (L) is often paired with other categorizations. How might you _search the dataframe for entries that match_ (G) or (L)?
 ```{r}
+gayguides %>% 
+  filter(grepl("(G)|(L)", amenityfeatures))
 ```
 
 ### Mutate
@@ -107,11 +117,16 @@ statepopulations %>% mutate(difference = X1900 - X1800)
 
 (@) In the Boston Women Voters dataset, every voter is given an age. Can you use their age to calculate each person's birth year? (Assume all this data was collected in 1920.)
 ```{r}
+data("BostonWomenVoters")
+BostonWomenVoters %>% 
+  mutate(Born = 1920 - Age)
 ```
 
 (@) Can you create a new column that combines the city and state columns in `gayguides` into a new column called location? It should list the city, state. (i.e. San Diego, CA)
 
 ```{r}
+gayguides %>%
+  mutate(location = paste(city,",", state))
 ```
 
 ### Arrange

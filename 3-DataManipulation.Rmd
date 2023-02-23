@@ -251,10 +251,10 @@ gayguides %>%
 
 (@)How much did LGTBQ life grow between 1970 and 1980? Can you create a data frame that computes the growth in the number of locations between 1970 and 1980 for every state? For every region? 
 ```{r}
-gayguides %>%
-  filter(Year > 1969 & Year < 1981) %>%
-  group_by(state, Year) %>%
-  summarize(count = n())
+test.gayguides <- function(gayguides) {
+  gayguides %>%
+  filter(Year == 1970 & 1980)
+}
   
 ```
 

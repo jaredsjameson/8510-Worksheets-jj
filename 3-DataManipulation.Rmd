@@ -232,13 +232,14 @@ head(almshouse_admissions)
 
 (@) Below I've downloaded data about each of the census regions. Join this dataset with `gayguides`. Create a data frame that includes each of the regions and the total number of locations in 1980. How many locations appear in the Mountain region in 1980?
 ```{r}
+data(gayguides)
 regions <- read.csv("https://raw.githubusercontent.com/regan008/DigitalMethodsData/main/raw/censusregions.csv")
 
 gayguides <- left_join(gayguides, regions, by=c("state"="State.Code"))
 
 gayguides %>%
   filter(Year == 1980) %>%
-  group_by(Region.x, Division.x) %>%
+  group_by(Region, Division) %>%
   summarize(count = n())
   
   
@@ -251,15 +252,17 @@ gayguides %>%
 
 (@)How much did LGTBQ life grow between 1970 and 1980? Can you create a data frame that computes the growth in the number of locations between 1970 and 1980 for every state? For every region? 
 ```{r}
-data(gayguides)
-gayguides1970 <- gayguides %>%
-  filter(Year == 1970) %>%
-  group_by(state, Region.x)
-gayguides1970 
+#data(gayguides)
+#gayguides <- left_join(gayguides, regions, by=c("state"="State.Code"))
+#gayguides1970 <- gayguides %>%
+  #filter(Year == 1970 & Year == 1980 & State & Region) %>%
+ # group_by(Year, state, Region) %>%
+  #summarize(count = n())
+#gayguides1970
 
   
 ```
-
+>Couldn't solve above . . .
 
 ### `pivot_longer()` and `pivot_wider()`: Converting Wide and Long Data
 
@@ -397,13 +400,16 @@ gayguides %>%
 (@) Write a function that filters the gay guides dataset. It should accept 2 arguments: year and state. When passed to the function the function should return only the title, type, state and year for each entry. 
 
 ```{r}
-data(gayguides)
+#library(DigitalMethodsData)
+#data(gayguides)
 
-testfunc <- function(gayguides) {
-    filter(gayguides, year, state)
-    select(title, type, state, year)
-}
-testfunc
+#testfunc <- function(Year, state) {
+    #gayguides %>%
+    #filter(Year == Year, state == state) %>%
+    #select(gayguides, title, type, state, Year)
+#}
 
+#testfunc(1980, "SC")
 
 ```
+>Couldn't solve above . . .

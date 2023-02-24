@@ -251,10 +251,12 @@ gayguides %>%
 
 (@)How much did LGTBQ life grow between 1970 and 1980? Can you create a data frame that computes the growth in the number of locations between 1970 and 1980 for every state? For every region? 
 ```{r}
-test.gayguides <- function(gayguides) {
-  gayguides %>%
-  filter(Year == 1970 & 1980)
-}
+data(gayguides)
+gayguides1970 <- gayguides %>%
+  filter(Year == 1970) %>%
+  group_by(state, Region.x)
+gayguides1970 
+
   
 ```
 
@@ -279,6 +281,12 @@ sc.parks <- sc.parks %>%
 (@) Here's another wide data frame. Can you turn this from a wide to a narrow data frame? 
 ```{r}
 rec.spaces <- read.csv("https://raw.githubusercontent.com/regan008/DigitalMethodsData/main/raw/PlayAreabyType.csv")
+
+rec.spaceslonger <- rec.spaces %>%
+  pivot_longer(!type, names_to = "year", values_to = "count")
+
+rec.spaceslonger
+
 ```
 
 The opposite of `pivot_longer()` is `pivot_wider()`. It "widens" data by increasing the number of columns and decreasing the number of rows. We can revert `sc.parks` back to a wide dataset using this function.
@@ -289,10 +297,16 @@ sc.parks %>%
 
 (@) Widen the `sc.parks` dataset so that the column names are drawn from the type of recreation worker.
 ```{r}
+sc.parks %>%
+  pivot_wider(names_from = type_of_worker, values_from = "count")
 ```
 
 (@) Turn `rec.spaces` into a wide dataframe. 
 ```{r}
+rec.spaces %>%
+  pivot_longer(!type, names_to = "year", values_to = "count") %>%
+  pivot_wider(names_from = "type", values_from = "count")
+  
 ```
 
 
@@ -307,23 +321,89 @@ gayguides %>%
 The implicit question was, "How many locations appear in each year?". The `judges` dataset in provided in the DigitalMethodsData package is a large, messy, wide dataframe that contains a lot of information. Look at this dataframe and then compose a question to ask of the data.
 
 (@) First, tell me, what is the question you are asking? 
+
+> I want to ask in which city were the most judges born.
+
 ```{r}
+data(judges)
+# I want to ask in which city were the most judges born.
+
+judges
 ```
 
 (@) Now write some code to address that question. Comment the code with notes that explain your thinking as you go. Use functions like select(), filter(), etc to pair down your dataset and reshape it to address your question. 
+
+
 ```{r}
+
+#first load data
+
+data(judges)
+
+#second, create a dataframe that contains just the judges last name and the city and state the judge was born in. To do this, it will be necessary to paste birth.city and birth.state together into a new column.
+
+judgesbirthcity <- judges %>%
+    
+   mutate(birth.city.state = paste(Birth.City,",", Birth.State)) %>%
+
+#now I have the new column, so I can just group_by the birth cities now without worrying about overlap between two cities in different states with the same name.    
+  
+  group_by(birth.city.state,) %>%
+
+#with everything grouped, now I can summarize the dataframe and get a count as to how many judges in each city.
+  
+   summarize(count = n()) %>%
+
+#lastly, I am going to arrange the data in descending order according to the count column to see which city birthed the most judges. Surprise, surprise, it is New York.
+  
+   arrange(desc(count))
+
+judgesbirthcity
+
+
+
+
+
 ```
 
 (@) Now ask a question of the `gayguides` data (or another dataset of your choice). What is the question you are asking? 
 ```{r}
+#I am going to ask the gayguides which city in South Carolina hashad the most locations in the state's history the most locations.
+
+
 ```
 
 (@) Now write some code to address that question. Comment the code with notes that explain your thinking as you go. Use functions like select(), filter(), etc to pair down your dataset and reshape it to address your question. 
 ```{r}
+#first load the gayguides data
+
+data(gayguides)
+
+##Next, filter the data to show only south carolina's info
+
+gayguides %>% 
+  filter(state == "SC") %>%
+
+##Now I will need to group-by city and to summarize with a count
+
+  group_by(city) %>%
+  summarize(count = n()) %>%
+
+#Lastly, I will arrange the dataframe in descending order to find the city with the largest amount of locations.
+
+  arrange(desc(count))
 ```
 
 (@) Write a function that filters the gay guides dataset. It should accept 2 arguments: year and state. When passed to the function the function should return only the title, type, state and year for each entry. 
+
 ```{r}
+data(gayguides)
+
+testfunc <- function(gayguides) {
+    filter(gayguides, year, state)
+    select(title, type, state, year)
+}
+testfunc
 
 
 ```

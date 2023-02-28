@@ -123,11 +123,15 @@ ggplot(BostonWomenVoters, aes(x = Age)) +
 
 (@) By default, `geom_histogram()` is choosing the number of bins. Can you change the number of bins or the bin width? (Hint: How might you look up the options for this function?)
 ```{r}
+data(BostonWomenVoters) 
+ggplot(BostonWomenVoters, aes(x = Age)) +
+  geom_histogram(bins = 100, binwidth =8)
 ```
 
 (@) Explain, what does changing the number of bins do? 
 
-> 
+> Changing the number of bins gives you more or less bars that show up on the graph. I think this also has something to do with the number of entries that show up in the "bin". 
+
 ### Barplots 
 
 A barplot (or barchart) is one of the most common types of graphic. Whereas a histogram shows the number of entries in each "bin" - a bar chart shows the relationship between a numeric and a categorical variable. Each entity in the categorical variable is represented as a bar. The size of the bar represents its numeric value. 
@@ -140,18 +144,38 @@ ggplot(sc.rec, aes(x = state, y = state.expenditures )) +
 
 (@) Using the `gayguides` data, create a bar chart that shows the number of locations in 1980 in South Carolina, Georgia, and North Carolina. 
 ```{r}
+barchar <- data(gayguides) 
+ gayguides %>%
+   filter(state == "South Carolina", state == "Georgia", state == "North Carolina", Year == 1980) %>%
+  group_by(state) %>% 
+  summarize(count = n())
+
 ```
 
 (@) Using the `gayguides` data, plot the number of religious institutions in each state.
 ```{r}
+barchar <- data(gayguides) 
+ gayguides %>%
+   filter(state == "South Carolina", state == "Georgia", state == "North Carolina", Year == 1980) %>%
+  group_by(state) %>% 
+  summarize(count = n()) %>%
+ggplot(barchar, mapping = aes(x = state, y = count)) +
+  geom_col()
 ```
 
 (@) Formulate a question based on a dataset of your choice. That question should be something that would be appropriately answered by a bar chart. What is the question you want to explore?
 
-<
+>Question: How many more manumissions were given for the motive of morality than they were for self purchase?
 
 (@) Now write the code to answer that question and use comments (`#`) to explain your thinking as you go.
 ```{r}
+manubar <- data(charlestonManumissions) 
+ charlestonManumissions %>%
+   filter(Motive == "Moral", Motive == "Self-Purchase") %>%
+  group_by(Motive) %>% 
+  summarize(count = n()) %>%
+ggplot(manubar, mapping = aes(x = Motive, y = count)) +
+  geom_col()
 ```
 
 ### Line Charts

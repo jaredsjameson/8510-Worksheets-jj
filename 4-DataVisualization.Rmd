@@ -67,6 +67,16 @@ To summarize what we did above, there were 3 steps we went through. First, tell 
 
 (@) Modify the above plot so that the variables it draws on are life expectancy and population. Then, use a comment to annotate the code and mark each of the 3 parts described above.
 ```{r}
+
+
+p <- ggplot (
+# 1 assign the function to a variable
+  data = gapminder, 
+# 2 assign the data to ggplot
+  mapping = aes(x = pop, y=lifeExp))
+# 3 map the data to the life expectancy and population variables.
+  p + geom_point()
+#4 call the variable and assign the geometry
 ```
 
 We can make this plot even more complex. Adding another value, color, to `aes()` we can change the color of each dot to correspond to a year. We also might want to rename the x and y-axis so that the labels have a more useful description of the variable. We can do so using the labs function. 
@@ -77,12 +87,19 @@ ggplot(data = gapminder, mapping = aes(x = gdpPercap, y=lifeExp, color=year)) + 
 
 (@) Using the same plot above, can you edit the code to add a trend line? (Hint: You'll need to add another geom)
 ```{r}
+ggplot(data = gapminder, mapping = aes(x = gdpPercap, y=lifeExp, color=year)) + geom_point() + geom_smooth(method=lm) +
+#add linear trend line 
+labs(x="GDP Per Capita", y="Life Expectency in Years", title="Life Expectency and Per Capita GDP by Year") 
 ```
 
 
 (@) The file below contains data about the population of cities in 1930 and their recreation expenditures. Can you create a scatter plot from this data? 
 ```{r}
 rec <- read.csv(file = "https://raw.githubusercontent.com/regan008/DigitalMethodsData/main/raw/Recreation-Expenditures.csv")
+
+ggplot(data = rec, mapping = aes(x = population, y=total_expenditures, color=year)) + geom_point() + geom_smooth(method=lm) +
+#add linear trend line 
+labs(x="State Population", y="State Total Expenditures", title="State Populations and Total Expenditures") 
 ```
 
 The `geom_point()` function allows us to create scatterplots but its not the only geom within `ggplot2()`.
@@ -99,6 +116,9 @@ ggplot(recreational.data, aes(x = population)) +
 
 (@) Use the Boston Women's voters dataset to create a histogram of the age of voters. 
 ```{r}
+data(BostonWomenVoters) 
+ggplot(BostonWomenVoters, aes(x = Age)) +
+  geom_histogram()
 ```
 
 (@) By default, `geom_histogram()` is choosing the number of bins. Can you change the number of bins or the bin width? (Hint: How might you look up the options for this function?)

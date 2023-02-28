@@ -169,13 +169,30 @@ ggplot(barchar, mapping = aes(x = state, y = count)) +
 
 (@) Now write the code to answer that question and use comments (`#`) to explain your thinking as you go.
 ```{r}
-manubar <- data(charlestonManumissions) 
+# I'm not sure about these barcharts. Can't seem to get them going.
+
+manubar <- data(charlestonManumissions)
+
+# Load the data
+
  charlestonManumissions %>%
+
+# Call the dataset
+   
    filter(Motive == "Moral", Motive == "Self-Purchase") %>%
-  group_by(Motive) %>% 
+# filter the dataset
+  
+   group_by(Motive) %>% 
+   
+  #group by the appropriate variable
+   
   summarize(count = n()) %>%
-ggplot(manubar, mapping = aes(x = Motive, y = count)) +
+# summarize the data by counting the number of occurences of a state.
+
+   ggplot(manubar, mapping = aes(x = Motive, y = count)) +
   geom_col()
+ 
+ # I think my error is here, but can't figure out the problem.
 ```
 
 ### Line Charts
@@ -190,15 +207,25 @@ ggplot(gg.byyear, aes(x = Year, y = count)) +
 
 (@) Create a bar chart that shows the number of religious institutions in the gay guides data over time.
 ```{r}
+gg.byyear <- gayguides %>% 
+  group_by(Year) %>% 
+  summarize(count = n())
+ggplot(gg.byyear, aes(x = Year, y = count)) +
+  geom_line()
+# I don't see the religious institutions.
+
 ```
 
 (@) In the gayguides data, danger or risk is indicated in several different ways. Sometimes it through the use of an amenity categorization of (HOT) or (AYOR) which meant that these locations were frequented by police and should be used at your own risk. Othertimes, locations were listed as "inquire locally" in either the description or address field. There are many reasons a location would have requested to have been listed this way. Many times, it was due to harassment and the location deemed it too dangerous to publically list its location. Can you create a subset of the gay guides data about risk and then use it to create a chart about the usage of these indicators over time? 
 ```{r}
+#I'm not sure how to do this.
+data(gayguides)
+gayguides %>%
 ```
 
 
 ### Faceting
-Unlike the previous exmaples, `facet_wrap` is not a geom.  It splits the chart window in several small parts (a grid), and displays a similar chart in each section. Each section usually shows the same graph for a specific group of the dataset. For example, remember the line chart above that graphed the number of locations in the `gayguides` data across each year? We can facet that by state to see the number of locations in each state in each year. 
+Unlike the previous examples, `facet_wrap` is not a geom.  It splits the chart window in several small parts (a grid), and displays a similar chart in each section. Each section usually shows the same graph for a specific group of the dataset. For example, remember the line chart above that graphed the number of locations in the `gayguides` data across each year? We can facet that by state to see the number of locations in each state in each year. 
 
 ```{r}
 gg.byyear <- gayguides %>% filter(state == "SC" | state == "NC" | state == "GA") %>% group_by(state, Year) %>% summarize(count = n())
@@ -208,10 +235,22 @@ ggplot(gg.byyear, aes(x = Year, y = count)) +
 
 (@) Using the state recreation data, can you create a chart that outlines the total expenditures in South Carolina by city?
 ```{r}
-```
+gg.reccities <- rec %>% 
+  filter(state == "SC") %>%
+  group_by(city, total_expenditures) %>%
+  summarize(totalexpenditures = sum(total_expenditures))
+ggplot(gg.reccities, aes(x = city, y = total_expenditures)) +
+  geom_line() + facet_wrap(~city)
+``
 
 (@) Using the gayguides data can you select 5 types of locations and chart the number of each type between 1965 and 1980? 
 ```{r}
+Bars/Clubs
+Restaurant
+Cruising Areas
+Book Store
+
+data(gayguides)
 ```
 
 (@) Using this recreation dataset from last week, can you find the average number of volunteer and paid workers over time? 

@@ -32,12 +32,16 @@ library(DigitalMethodsData)
 To begin, we're going to use one of R's built in datasets. First lets take a look at the data: 
 ```{r}
 data(gapminder)
+
+str(gapminder)
 ```
 
 (@) Take a look at the data. What can you say about it? 
 
-> 
+> The data includes 1704 observations of 6 variables, which should give plenty to plot. There is a mixture of text strings (eg., country, content) and numeric values (eg., year, lifeExp). The data looks pretty tidy. Gapminder is a long dataset, meaning it is longer than it is wide. The data gives some good baseline information for investigating historical issues that might need to compare gdpPercapita with population information across the range of time this dataset reflects.
+
 This data includes variables for life exptenency and per capita GDP. Lets say we want to plot these two variables against each other for all country-years within the dataset. First we have to tell `ggplot()` what our data is. 
+
 ```{r}
 p <- ggplot(data = gapminder)
 ```

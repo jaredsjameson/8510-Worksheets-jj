@@ -1,0 +1,98 @@
+---
+title: "Exploratory Data Checklist"
+author: "Jared Jameson"
+date: "2023-03-07"
+output: html_document
+---
+##Exploratory Data Checklist
+
+This will serve as my exploratory data checklist assignment for HIST8510 with Amanda Regan. 
+
+Chosen Dataset: almshouse_admissions
+
+I.	Formulating a question: 
+
+What percentage of almshouse admittees were beer house keepers by trade?
+
+II.	Read in some data: 
+
+The data I will be using for this project will be the almshouse_admissions dataset provided in class. It already contains all the necessary info and is for the most part clean.
+
+```{r}
+almshouse.occupations <- read.csv(file="https://raw.githubusercontent.com/regan008/DigitalMethodsData/main/raw/almshouse-occupationalcodes.csv", header=TRUE)
+
+almshouse_joined <- left_join(almshouse_admissions, almshouse.occupations, by=c("Descriptions.by.Clerk"="code"))
+
+almshouse_joined
+
+```
+
+
+##III.	Check the packaging: 
+
+the packaging here is already pretty familiar, but just as a quick re-hash, 
+
+```{r}
+nrow(almshouse_joined)
+ncol(almshouse_joined)
+```
+
+
+##IV. Run str(): 
+
+This one is my go to, so I don’t mind running the ol’ str()
+
+```{r}
+str(almshouse_joined)
+```
+
+## V. Look at the top and the bottom of the data.
+```{r}
+head(almshouse_joined[, c(6:7, 10)])
+tail(almshouse_joined[, c(6:7, 10)])
+
+```
+
+## VI. Check your ns:
+
+So, no I need to check some numbers
+
+```{r}
+table(almshouse_joined$occupation)
+
+```
+>The above verifies that beer house keepers were the second most likely occupation of those admitted to the almshouse, the first being auctioneer. We could now create a query that could calculate the percentage of the total observations that were beer house keepers. Then the percentage that was auctioneers. I could also create a visualization of this data, and checking these specific numbers give me an idea as to how I might structure that visualization. For instance, perhaps I could do a two-bar chart that groups the total of beer house keepers and accountants and compares that total to all other occupations combined. This might make an interesting visualization, especially if the bars were mmulti-colored to represent each group contained in the bar proportionately.Although, I still am failing miserably at plotting, so though that sounds nice, I don't think I could make it right now. 
+
+##VII. Validate with at lease one external data source
+
+>So, I tried to validate with one source, on the Haithi Trust, which offered wage statistics for various occupations across some of the relevant years here, but I had a hard time sifting through the data to try and check any of the listed occupations here. One interesting thing is that this reveals that the occupational categories use when creating the data don't align with the ways labor was classified in the times when it is being created. 
+
+>I also tried to validate by doing a search for the Philadelphia Almshouse to check its years of operation to see if the years represented here were accurate, but I could only find a record of the Philadelphia City Almshouse having ever existed, and other than that, a place called Blocksley comes up in search results that I don't think is the right place.
+
+##VIII. Try the easy solution first.
+
+>So, the easiest thing to do is just follow along, I grouped similarly but not exactly as Peng did and ranked my occupations in a dataframe.
+
+```{r}
+ranking <- group_by(almshouse_joined, occupation) %>%
+    summarize(count = n()) %>%
+    as.data.frame %>%
+    arrange(desc(count))
+ranking
+```
+
+##X Follow up questions
+
+>I can clearly see here a few different interesting things. (1) There are multiple other alcohol related professions on the list that could be used to create a visualization of the entire almshouse admitee alcohol industry representation, which appears to represent a huge percentage of total admitees. (2) By identifying auctioneers as the most represented occupation, and Army Officer as number 3, an interesting picture comes in to view of who really inhabited these spaces. It would be interesting to look at more specific info about those three occupations and how they overlapped in terms of other historical circumstances. Of course, the shocker is number 4, attorney. This is shocking because attornies are generally thought of  as earning a high income. I think this could be interesting to look into here for sure. (3) Also, by looking at the gap between each spot you can see that by number 5, the numbers drop off significantly, and so, one can quickly infer that only 4 occupations in particular led to stays at the almshouse later. It would also be interesting to look into how many barkeepers and auctioneers there were in total during these years. What percentage of auctioneers in Philadelphia overall ended up in the almshouse. Unfortunately, I couldn't complete the earlier verification step, as this might've helped answer this question.
+
+```{r}
+ranking <- group_by(almshouse_joined, occupation) %>%
+    summarize(count = n()) %>%
+    as.data.frame %>%
+    arrange(desc(count))
+
+
+```
+
+
+
